@@ -1,0 +1,41 @@
+export const sampleNotifications = [
+  {
+    id: "1",
+    title: "Event Reminder",
+    message: "Team Meeting starts in 30 minutes",
+    timestamp: "2025-04-17T09:30:00",
+    read: false,
+    eventId: "1",
+  },
+  {
+    id: "2",
+    title: "New Event",
+    message: "Sarah invited you to Birthday Party",
+    timestamp: "2025-04-16T14:25:00",
+    read: false,
+    eventId: "5",
+  },
+  {
+    id: "3",
+    title: "Event Updated",
+    message: "Project Deadline has been rescheduled",
+    timestamp: "2025-04-15T11:10:00",
+    read: true,
+    eventId: "3",
+  },
+  {
+    id: "4",
+    title: "Reminder",
+    message: "Don't forget your Doctor Appointment tomorrow",
+    timestamp: "2025-04-19T18:00:00",
+    read: false,
+    eventId: "4",
+  },
+  {
+    id: "5",
+    title: "New Task",
+    message: "You have been assigned a new task: Update documentation",
+    timestamp: "2025-04-14T09:15:00",
+    read: true,
+  },
+]
