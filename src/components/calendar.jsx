@@ -1,6 +1,4 @@
-"use client";
-
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react"
 import {
   startOfMonth,
   endOfMonth,
@@ -17,38 +15,41 @@ import {
   setYear,
   addYears,
   subYears,
-} from "date-fns";
-import { motion, AnimatePresence } from "framer-motion";
-import CalendarHeader from "./calendar-header";
-import CalendarGrid from "./calendar-grid";
-import Sidebar from "./sidebar";
-import EventModal from "./event-modal";
-import NotificationPanel from "./notification-panel";
-import SearchResults from "./search-results";
-import DateDetailModal from "./date-detail-modal";
-import YearPicker from "./year-picker";
-import ViewSelector from "./view-selector";
-import { sampleEvents } from "@/data/events";
-import { sampleNotifications } from "@/data/notifications";
+} from "date-fns"
+import { motion, AnimatePresence } from "framer-motion"
+import CalendarHeader from "./calendar-header"
+import CalendarGrid from "./calendar-grid"
+import Sidebar from "./sidebar"
+import EventModal from "./event-modal"
+import NotificationPanel from "./notification-panel"
+import SearchResults from "./search-results"
+import DateDetailModal from "./date-detail-modal"
+import YearPicker from "./year-picker"
+import ViewSelector from "./view-selector"
+import { sampleEvents } from "@/data/events"
+import { sampleNotifications } from "@/data/notifications"
+
 
 export default function Calendar() {
-  const [currentDate, setCurrentDate] = useState(new Date());
-  const [events, setEvents] = useState([]);
-  const [notifications, setNotifications] = useState([]);
-  const [sidebarOpen, setSidebarOpen] = useState(true);
-  const [direction, setDirection] = useState(0);
-  const [eventModalOpen, setEventModalOpen] = useState(false);
-  const [selectedEvent, setSelectedEvent] = useState(null);
-  const [notificationPanelOpen, setNotificationPanelOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
-  const [searchResults, setSearchResults] = useState([]);
-  const [searchOpen, setSearchOpen] = useState(false);
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [yearPickerOpen, setYearPickerOpen] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(null);
-  const [dateDetailOpen, setDateDetailOpen] = useState(false);
-  const [calendarView, setCalendarView] = useState("month");
-  const calendarRef = useRef(null);
+  const [currentDate, setCurrentDate] = useState(new Date())
+  const [events, setEvents] = useState([])
+  const [notifications, setNotifications] = useState([])
+  const [sidebarOpen, setSidebarOpen] = useState(true)
+  const [direction, setDirection] = useState(0)
+  const [eventModalOpen, setEventModalOpen] = useState(false)
+  const [selectedEvent, setSelectedEvent] = useState(null)
+  const [notificationPanelOpen, setNotificationPanelOpen] = useState(false)
+  const [searchQuery, setSearchQuery] = useState("")
+  const [searchResults, setSearchResults] = useState([])
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [selectedCategories, setSelectedCategories] = useState([])
+  const [yearPickerOpen, setYearPickerOpen] = useState(false)
+  const [selectedDate, setSelectedDate] = useState(null)
+  const [dateDetailOpen, setDateDetailOpen] = useState(false)
+  const [calendarView, setCalendarView] = useState("month")
+  const [isDarkMode, setIsDarkMode] = useState(false)
+  const calendarRef = useRef(null)
+  
 
   useEffect(() => {
     // In a real app, this would fetch from an API
@@ -57,63 +58,73 @@ export default function Calendar() {
         ...event,
         start: parseISO(event.start),
         end: parseISO(event.end),
-      }))
-    );
-    setNotifications(sampleNotifications);
-  }, []);
+      })),
+    )
+    setNotifications(sampleNotifications)
+
+    // Check system preference for dark mode
+    if (typeof window !== "undefined") {
+      const prefersDark = window.matchMedia("(prefers-color-scheme: light)").matches
+      setIsDarkMode(prefersDark)
+      if (prefersDark) {
+        document.documentElement.classList.add("light")
+      }
+    }
+  }, [])
+
+  // Toggle dark mode
+  const toggleDarkMode = () => {
+    setIsDarkMode(!isDarkMode)
+    document.documentElement.classList.toggle("dark")
+  }
 
   // Filter events by selected categories
   const filteredEvents =
     selectedCategories.length > 0
-      ? events.filter((event) =>
-          selectedCategories.includes(event.category || "uncategorized")
-        )
-      : events;
+      ? events.filter((event) => selectedCategories.includes(event.category || "uncategorized"))
+      : events
 
-  const monthStart = startOfMonth(currentDate);
-  const monthEnd = endOfMonth(currentDate);
-  const calendarStart = startOfWeek(monthStart);
-  const calendarEnd = endOfWeek(monthEnd);
-  const daysInMonth = eachDayOfInterval({
-    start: calendarStart,
-    end: calendarEnd,
-  });
+  const monthStart = startOfMonth(currentDate)
+  const monthEnd = endOfMonth(currentDate)
+  const calendarStart = startOfWeek(monthStart)
+  const calendarEnd = endOfWeek(monthEnd)
+  const daysInMonth = eachDayOfInterval({ start: calendarStart, end: calendarEnd })
 
   const nextMonth = () => {
-    setDirection(1);
-    setCurrentDate(addMonths(currentDate, 1));
-  };
+    setDirection(1)
+    setCurrentDate(addMonths(currentDate, 1))
+  }
 
   const prevMonth = () => {
-    setDirection(-1);
-    setCurrentDate(subMonths(currentDate, 1));
-  };
+    setDirection(-1)
+    setCurrentDate(subMonths(currentDate, 1))
+  }
 
   const nextYear = () => {
-    setDirection(1);
-    setCurrentDate(addYears(currentDate, 1));
-  };
+    setDirection(1)
+    setCurrentDate(addYears(currentDate, 1))
+  }
 
   const prevYear = () => {
-    setDirection(-1);
-    setCurrentDate(subYears(currentDate, 1));
-  };
+    setDirection(-1)
+    setCurrentDate(subYears(currentDate, 1))
+  }
 
   const goToToday = () => {
-    setDirection(0);
-    setCurrentDate(new Date());
-  };
+    setDirection(0)
+    setCurrentDate(new Date())
+  }
 
   const goToYear = (year) => {
-    const newDate = setYear(currentDate, year);
-    setDirection(year > getYear(currentDate) ? 1 : -1);
-    setCurrentDate(newDate);
-    setYearPickerOpen(false);
-  };
+    const newDate = setYear(currentDate, year)
+    setDirection(year > getYear(currentDate) ? 1 : -1)
+    setCurrentDate(newDate)
+    setYearPickerOpen(false)
+  }
 
   const changeView = (view) => {
-    setCalendarView(view);
-  };
+    setCalendarView(view)
+  }
 
   // Get events for a specific day
   const getEventsForDay = (day) => {
@@ -124,149 +135,145 @@ export default function Calendar() {
           start: event.start,
           end: event.end,
         }) &&
-          !isSameDay(day, event.end))
-    );
-  };
+          !isSameDay(day, event.end)),
+    )
+  }
+
 
   // Check if events overlap
   const checkEventOverlap = (events) => {
-    const sortedEvents = [...events].sort(
-      (a, b) => a.start.getTime() - b.start.getTime()
-    );
+    const sortedEvents = [...events].sort((a, b) => a.start.getTime() - b.start.getTime())
 
     for (let i = 0; i < sortedEvents.length; i++) {
-      sortedEvents[i].column = 0;
-      sortedEvents[i].colspan = 1;
-      sortedEvents[i].overlapping = false;
+      sortedEvents[i].column = 0
+      sortedEvents[i].colspan = 1
+      sortedEvents[i].overlapping = false
 
       for (let j = 0; j < i; j++) {
-        const eventA = sortedEvents[i];
-        const eventB = sortedEvents[j];
+        const eventA = sortedEvents[i]
+        const eventB = sortedEvents[j]
 
-        const overlap = eventA.start < eventB.end && eventB.start < eventA.end;
+        const overlap = eventA.start < eventB.end && eventB.start < eventA.end
 
         if (overlap) {
-          eventA.overlapping = true;
-          eventB.overlapping = true;
+          eventA.overlapping = true
+          eventB.overlapping = true
 
           if (eventA.column === eventB.column) {
-            eventA.column = eventB.column + 1;
+            eventA.column = eventB.column + 1
           }
         }
       }
     }
 
-    return sortedEvents;
-  };
+    return sortedEvents
+  }
 
   // Get all unique categories
-  const categories = [
-    ...new Set(events.map((event) => event.category || "uncategorized")),
-  ];
+  const categories = [...new Set(events.map((event) => event.category || "uncategorized"))]
 
   // Handle event click
   const handleEventClick = (event) => {
-    setSelectedEvent(event);
-    setEventModalOpen(true);
-  };
+    setSelectedEvent(event)
+    setEventModalOpen(true)
+  }
 
   // Handle date click
   const handleDateClick = (date) => {
-    setSelectedDate(date);
-    setDateDetailOpen(true);
-  };
+    setSelectedDate(date)
+    setDateDetailOpen(true)
+  }
 
   // Handle create new event
   const handleCreateEvent = (date) => {
-    setSelectedEvent(null);
+    setSelectedEvent(null)
     if (date) {
       const newEvent = {
         start: date,
         end: new Date(date.getTime() + 60 * 60 * 1000), // 1 hour later
-      };
-      setSelectedEvent(newEvent);
+      }
+      setSelectedEvent(newEvent )
     }
-    setEventModalOpen(true);
-  };
+    setEventModalOpen(true)
+  }
 
   // Handle save event
   const handleSaveEvent = (event) => {
     if (selectedEvent && selectedEvent.id) {
       // Update existing event
-      setEvents(events.map((e) => (e.id === event.id ? event : e)));
+      setEvents(events.map((e) => (e.id === event.id ? event : e)))
+      
     } else {
       // Create new event
       const newEvent = {
         ...event,
         id: `event-${Date.now()}`,
-      };
-      setEvents([...events, newEvent]);
+      }
+      setEvents([...events, newEvent])
+      
     }
-    setEventModalOpen(false);
-  };
+    setEventModalOpen(false)
+  }
 
   // Handle delete event
   const handleDeleteEvent = (eventId) => {
-    setEvents(events.filter((e) => e.id !== eventId));
-    setEventModalOpen(false);
-  };
+    setEvents(events.filter((e) => e.id !== eventId))
+    setEventModalOpen(false)
+    
+  }
 
   // Handle search
   const handleSearch = (query) => {
-    setSearchQuery(query);
+    setSearchQuery(query)
     if (query.trim() === "") {
-      setSearchResults([]);
-      setSearchOpen(false);
-      return;
+      setSearchResults([])
+      setSearchOpen(false)
+      return
     }
 
     const results = events.filter(
       (event) =>
         event.title.toLowerCase().includes(query.toLowerCase()) ||
-        (event.description &&
-          event.description.toLowerCase().includes(query.toLowerCase()))
-    );
-    setSearchResults(results);
-    setSearchOpen(true);
-  };
+        (event.description && event.description.toLowerCase().includes(query.toLowerCase())),
+    )
+    setSearchResults(results)
+    setSearchOpen(true)
+  }
 
   // Handle notification click
   const handleNotificationClick = (notification) => {
     // Mark as read
-    setNotifications(
-      notifications.map((n) =>
-        n.id === notification.id ? { ...n, read: true } : n
-      )
-    );
+    setNotifications(notifications.map((n) => (n.id === notification.id ? { ...n, read: true } : n)))
 
     // If it's an event notification, open the event
     if (notification.eventId) {
-      const event = events.find((e) => e.id === notification.eventId);
+      const event = events.find((e) => e.id === notification.eventId)
       if (event) {
-        setSelectedEvent(event);
-        setEventModalOpen(true);
+        setSelectedEvent(event)
+        setEventModalOpen(true)
       }
     }
 
-    setNotificationPanelOpen(false);
-  };
+    setNotificationPanelOpen(false)
+  }
 
   // Handle mark all notifications as read
   const handleMarkAllAsRead = () => {
-    setNotifications(notifications.map((n) => ({ ...n, read: true })));
-  };
+    setNotifications(notifications.map((n) => ({ ...n, read: true })))
+    
+  }
 
   // Handle category toggle
   const handleCategoryToggle = (category) => {
     setSelectedCategories(
       selectedCategories.includes(category)
         ? selectedCategories.filter((c) => c !== category)
-        : [...selectedCategories, category]
-    );
-  };
+        : [...selectedCategories, category],
+    )
+  }
 
   // Count unread notifications
-  const unreadCount = notifications.filter((n) => !n.read).length;
+  const unreadCount = notifications.filter((n) => !n.read).length
 
   return (
     <div className="flex h-screen overflow-hidden" ref={calendarRef}>
@@ -302,12 +309,12 @@ export default function Calendar() {
           onSearch={handleSearch}
           searchQuery={searchQuery}
           notificationCount={unreadCount}
-          onToggleNotifications={() =>
-            setNotificationPanelOpen(!notificationPanelOpen)
-          }
+          onToggleNotifications={() => setNotificationPanelOpen(!notificationPanelOpen)}
           onYearPickerOpen={() => setYearPickerOpen(true)}
           calendarView={calendarView}
           onViewChange={changeView}
+          onToggleTheme={toggleDarkMode}
+          isDarkMode={isDarkMode}
         />
 
         {/* Search Results Dropdown */}
@@ -370,7 +377,9 @@ export default function Calendar() {
                 currentDate={currentDate}
                 daysInMonth={daysInMonth}
                 events={filteredEvents}
+                
                 getEventsForDay={getEventsForDay}
+                
                 checkEventOverlap={checkEventOverlap}
                 onEventClick={handleEventClick}
                 onDateClick={handleDateClick}
@@ -410,5 +419,5 @@ export default function Calendar() {
         )}
       </AnimatePresence>
     </div>
-  );
+  )
 }

@@ -38,9 +38,6 @@ export default function YearPicker({ currentYear, onYearSelect, onClose }) {
                 <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
-            <Button variant="ghost" size="icon" onClick={onClose} className="h-8 w-8 rounded-full">
-              <X className="h-4 w-4" />
-            </Button>
           </div>
 
           <div className="grid grid-cols-4 gap-2">

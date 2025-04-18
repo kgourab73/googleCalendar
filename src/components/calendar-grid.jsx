@@ -2,9 +2,6 @@ import { format, isToday, isSameMonth, isWeekend, startOfWeek, addDays } from "d
 import EventItem from "./event-item"
 import { motion } from "framer-motion"
 import { Plus, Sparkles } from "lucide-react"
-import { Badge } from "@/components/ui/badge"
-
-
 
 export default function CalendarGrid({
   currentDate,

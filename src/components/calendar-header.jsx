@@ -12,6 +12,8 @@ import {
   Settings,
   ChevronsLeft,
   ChevronsRight,
+  Moon,
+  Sun,
   CalendarDays,
   CalendarRange,
   CalendarClock,
@@ -43,6 +45,8 @@ export default function CalendarHeader({
   onCreateEvent,
   onSearch,
   searchQuery,
+  onToggleTheme,
+  isDarkMode,
   notificationCount,
   onToggleNotifications,
   onYearPickerOpen,
@@ -51,6 +55,7 @@ export default function CalendarHeader({
 }) {
   const [query, setQuery] = useState(searchQuery)
   const [isScrolled, setIsScrolled] = useState(false)
+  
 
   // Handle search input change
   const handleSearchChange = (e) => {
@@ -218,16 +223,35 @@ export default function CalendarHeader({
         />
       </div>
 
+      
+
       <div className="flex items-center space-x-2">
-        <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+
+
+      <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <Button
             onClick={onCreateEvent}
             className="bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-700 hover:to-indigo-700 text-white shadow-md hover:shadow-lg transition-all duration-200"
           >
-            <Plus className="h-4 w-4 mr-2" />
             New Event
           </Button>
         </motion.div>
+
+      <div className="flex items-center space-x-1 md:space-x-2 mt-2 md:mt-0 w-full md:w-auto justify-between md:justify-end">
+        {onToggleTheme && (
+          <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={onToggleTheme}
+              className="text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-full h-8 w-8"
+            >
+              {isDarkMode ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </Button>
+          </motion.div>
+        )}
+      </div>
+        
 
         <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <Button

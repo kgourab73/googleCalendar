@@ -1,5 +1,3 @@
-"use client"
-
 import { motion } from "framer-motion"
 import { format } from "date-fns"
 import { Search, Calendar, Tag } from "lucide-react"
