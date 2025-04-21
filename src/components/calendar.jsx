@@ -351,8 +351,6 @@ export default function Calendar() {
           )}
         </AnimatePresence>
 
-        {/* View Selector */}
-        <ViewSelector currentView={calendarView} onViewChange={changeView} />
 
         <div className="flex-1 overflow-auto">
           <AnimatePresence initial={false} mode="wait">

@@ -1,13 +1,9 @@
-"use client"
-
 import { format } from "date-fns"
 import { motion } from "framer-motion"
 import { X, Plus, Calendar, Sparkles, Heart, Users, Coffee, Zap, BookOpen } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
-import { Badge } from "@/components/ui/badge"
-
 
 
 export default function DateDetailModal({
@@ -36,9 +32,6 @@ export default function DateDetailModal({
                 <Calendar className="h-5 w-5 text-violet-500" />
                 <span>{format(date, "EEEE, MMMM d, yyyy")}</span>
               </DialogTitle>
-              {/* <Button variant="ghost" size="icon" onClick={onClose} className="rounded-full">
-                <X className="h-4 w-4" />
-              </Button> */}
             </div>
           </DialogHeader>
 
