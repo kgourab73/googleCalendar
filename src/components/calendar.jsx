@@ -351,6 +351,7 @@ export default function Calendar() {
           )}
         </AnimatePresence>
 
+        
 
         <div className="flex-1 overflow-auto">
           <AnimatePresence initial={false} mode="wait">

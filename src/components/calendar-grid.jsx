@@ -265,7 +265,7 @@ export default function CalendarGrid({
                   {/* Half-hour line */}
                   <div className="absolute top-1/2 w-full border-b border-slate-100/50 dark:border-slate-800/50"></div>
                 </div>
-              ))}0
+              ))}
 
 
               {/* Events */}
