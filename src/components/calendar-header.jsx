@@ -81,7 +81,7 @@ export default function CalendarHeader({
       case "month":
         return format(currentDate, "MMMM yyyy")
       case "week":
-        return `Week of ${format(currentDate, "MMMM d, yyyy")}`
+        return `Week ${format(currentDate, "MMMM d, yyyy")}`
       case "day":
         return format(currentDate, "EEEE, MMMM d, yyyy")
       default:
@@ -223,10 +223,7 @@ export default function CalendarHeader({
         />
       </div>
 
-      
-
-      <div className="flex items-center space-x-2">
-
+    <div className="flex items-center space-x-2">
 
       <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
           <Button

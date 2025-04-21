@@ -110,18 +110,6 @@ export default function CalendarGrid({
                 ))}
               </div>
 
-              {/* Add event quick button (only visible on hover) */}
-              <motion.button
-                className="absolute bottom-1 right-1 w-6 h-6 bg-violet-100 dark:bg-violet-900/50 text-violet-600 dark:text-violet-300 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
-                whileHover={{ scale: 1.1, backgroundColor: "#8b5cf6", color: "#ffffff" }}
-                whileTap={{ scale: 0.9 }}
-                onClick={(e) => {
-                  e.stopPropagation()
-                  onAddEvent(day)
-                }}
-              >
-                <Plus className="h-4 w-4" />
-              </motion.button>
             </motion.div>
           )
         })}
@@ -277,19 +265,8 @@ export default function CalendarGrid({
                   {/* Half-hour line */}
                   <div className="absolute top-1/2 w-full border-b border-slate-100/50 dark:border-slate-800/50"></div>
                 </div>
-              ))}
+              ))}0
 
-              {/* Current time indicator */}
-              {isToday(currentDate) && (
-                <div
-                  className="absolute left-0 right-0 border-t-2 border-red-500 z-10"
-                  style={{
-                    top: `${(new Date().getHours() + new Date().getMinutes() / 60) * 5}rem`,
-                  }}
-                >
-                  <div className="w-3 h-3 rounded-full bg-red-500 -mt-1.5 -ml-1.5"></div>
-                </div>
-              )}
 
               {/* Events */}
               <div className="absolute inset-0 p-1">
